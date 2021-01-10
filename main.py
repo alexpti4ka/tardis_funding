@@ -5,12 +5,15 @@ import datetime
 from datetime import timedelta
 import time
 
+
 def get_data_feeds(): #
     f = open('data.csv', 'w+')  # создаем файл если его нет (следить, чтобы уходило из памяти в конце)
     column_names = False
 
-    headers = {"Authorization":
-                   "TD.NS-bBMM5ozWlw8eI.DtUqubvB5bNH7DY.l6xr0uLYl98qt3h.RiiL9I-u7bUwHlx.ak2GLjLDHez5Crg.zit-"}
+    config = open("config.json")
+    config_json = json.loads(config.read())
+
+    headers = {"Authorization": config_json["key"]}
     # bearer = GTT authorisation
 
     url = "https://api.tardis.dev/v1/data-feeds/bitmex"
@@ -75,6 +78,7 @@ def get_data_feeds(): #
         # time.sleep(1) #sleep 1 sec
 
     f.close()
+    config.close() #чтобы не перегружать память
 
 
 get_data_feeds()
